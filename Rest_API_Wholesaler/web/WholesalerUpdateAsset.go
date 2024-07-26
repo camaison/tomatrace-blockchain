@@ -13,7 +13,7 @@ func (setup *OrgSetup) WholesalerUpdateAsset(w http.ResponseWriter, r *http.Requ
 	type Request struct {
 		ID                string `json:"id"`
 		WholesalerId      string `json:"wholesalerId"`
-		WholesalerPrice   string `json:"wholesalerPrice"`
+		WholesalerName    string `json:"wholesalerName"`
 		WholesalerBuyDate string `json:"wholesalerBuyDate"`
 	}
 
@@ -44,8 +44,8 @@ func (setup *OrgSetup) WholesalerUpdateAsset(w http.ResponseWriter, r *http.Requ
 	if requestData.WholesalerId != "" {
 		asset["WholesalerId"] = requestData.WholesalerId
 	}
-	if requestData.WholesalerPrice != "" {
-		asset["WholesalerPrice"] = requestData.WholesalerPrice
+	if requestData.WholesalerName != "" {
+		asset["WholesalerName"] = requestData.WholesalerName
 	}
 	if requestData.WholesalerBuyDate != "" {
 		asset["WholesalerBuyDate"] = requestData.WholesalerBuyDate

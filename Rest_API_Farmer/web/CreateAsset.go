@@ -13,6 +13,7 @@ func (setup *OrgSetup) CreateAsset(w http.ResponseWriter, r *http.Request) {
 	type Request struct {
 		ID           string `json:"id"`
 		FarmerId     string `json:"farmerId"`
+		FarmerName   string `json:"farmerName"`
 		FarmLocation string `json:"farmLocation"`
 		Variety      string `json:"variety"`
 		BatchNo      string `json:"batchNo"`

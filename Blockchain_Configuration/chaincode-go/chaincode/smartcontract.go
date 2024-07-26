@@ -16,6 +16,7 @@ type SmartContract struct {
 type Asset struct {
 	ID                string `json:"ID"`
 	FarmerId          string `json:"FarmerId"`
+	FarmerName        string `json:"FarmerName"`
 	FarmLocation      string `json:"FarmLocation"`
 	Variety           string `json:"Variety"`
 	BatchNo           string `json:"BatchNo"`
@@ -23,19 +24,19 @@ type Asset struct {
 	Price             string `json:"Price"`
 	Quantity          string `json:"Quantity"`
 	WholesalerId      string `json:"WholesalerId"`
-	WholesalerPrice   string `json:"WholesalerPrice"`
+	WholesalerName    string `json:"WholesalerName"`
 	WholesalerBuyDate string `json:"WholesalerBuyDate"`
 	RetailerId        string `json:"RetailerId"`
+	RetailerName      string `json:"RetailerName"`
 	RetailerBuyDate   string `json:"RetailerBuyDate"`
 }
 
 // InitLedger initializes the ledger with a set of sample assets
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 	assets := []Asset{
-		{ID: "asset1", FarmerId: "F001", FarmLocation: "Location1", Variety: "Variety1", BatchNo: "B001", HarvestDate: "2023-01-01", Price: "1000", Quantity: "100"},
-		{ID: "asset2", FarmerId: "F002", FarmLocation: "Location2", Variety: "Variety2", BatchNo: "B002", HarvestDate: "2023-02-01", Price: "1100", Quantity: "150"},
-		{ID: "asset3", FarmerId: "F003", FarmLocation: "Location3", Variety: "Variety3", BatchNo: "B003", HarvestDate: "2023-03-01", Price: "1200", Quantity: "200"},
-		{ID: "asset4", FarmerId: "F004", FarmLocation: "Location4", Variety: "Variety4", BatchNo: "B004", HarvestDate: "2023-04-01", Price: "1300", Quantity: "250"},
+		{ID: "1", FarmerId: "1", FarmerName: "Farmer 1", FarmLocation: "Location 1", Variety: "Variety 1", BatchNo: "Batch 1", HarvestDate: "2021-01-01", Price: "100", Quantity: "100", WholesalerId: "2", WholesalerName: "Wholesaler 1", WholesalerBuyDate: "2021-01-02", RetailerId: "3", RetailerName: "Retailer 1", RetailerBuyDate: "2021-01-03"},
+		{ID: "2", FarmerId: "2", FarmerName: "Farmer 2", FarmLocation: "Location 2", Variety: "Variety 2", BatchNo: "Batch 2", HarvestDate: "2021-02-01", Price: "200", Quantity: "200", WholesalerId: "3", WholesalerName: "Wholesaler 2", WholesalerBuyDate: "2021-02-02", RetailerId: "4", RetailerName: "Retailer 2", RetailerBuyDate: "2021-02-03"},
+		{ID: "3", FarmerId: "3", FarmerName: "Farmer 3", FarmLocation: "Location 3", Variety: "Variety 3", BatchNo: "Batch 3", HarvestDate: "2021-03-01", Price: "300", Quantity: "300", WholesalerId: "4", WholesalerName: "Wholesaler 3", WholesalerBuyDate: "2021-03-02", RetailerId: "5", RetailerName: "Retailer 3", RetailerBuyDate: "2021-03-03"},
 	}
 
 	for _, asset := range assets {
@@ -54,7 +55,7 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 }
 
 // CreateAsset creates a new asset and stores it in the ledger
-func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, id, farmerId, farmLocation, variety, batchNo, harvestDate, price, quantity, wholesalerId, wholesalerPrice, wholesalerBuyDate, retailerId, retailerBuyDate string) error {
+func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface, id, farmerId, farmerName, farmLocation, variety, batchNo, harvestDate, price, quantity, wholesalerId, WholesalerName, wholesalerPrice, wholesalerBuyDate, retailerId, retailerName, retailerBuyDate string) error {
 	exists, err := s.AssetExists(ctx, id)
 	if err != nil {
 		return err
@@ -66,6 +67,7 @@ func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface,
 	asset := Asset{
 		ID:                id,
 		FarmerId:          farmerId,
+		FarmerName:        farmerName,
 		FarmLocation:      farmLocation,
 		Variety:           variety,
 		BatchNo:           batchNo,
@@ -73,9 +75,10 @@ func (s *SmartContract) CreateAsset(ctx contractapi.TransactionContextInterface,
 		Price:             price,
 		Quantity:          quantity,
 		WholesalerId:      wholesalerId,
-		WholesalerPrice:   wholesalerPrice,
+		WholesalerName:    WholesalerName,
 		WholesalerBuyDate: wholesalerBuyDate,
 		RetailerId:        retailerId,
+		RetailerName:      retailerName,
 		RetailerBuyDate:   retailerBuyDate,
 	}
 	assetJSON, err := json.Marshal(asset)
@@ -106,7 +109,7 @@ func (s *SmartContract) ReadAsset(ctx contractapi.TransactionContextInterface, i
 }
 
 // UpdateAsset updates an existing asset in the ledger
-func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id, farmerId, farmLocation, variety, batchNo, harvestDate, price, quantity, wholesalerId, wholesalerPrice, wholesalerBuyDate, retailerId, retailerBuyDate string) error {
+func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface, id, farmerId, farmerName, farmLocation, variety, batchNo, harvestDate, price, quantity, wholesalerId, WholesalerName, wholesalerPrice, wholesalerBuyDate, retailerId, retailerName, retailerBuyDate string) error {
 	exists, err := s.AssetExists(ctx, id)
 	if err != nil {
 		return err
@@ -118,6 +121,7 @@ func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface,
 	asset := Asset{
 		ID:                id,
 		FarmerId:          farmerId,
+		FarmerName:        farmerName,
 		FarmLocation:      farmLocation,
 		Variety:           variety,
 		BatchNo:           batchNo,
@@ -125,9 +129,10 @@ func (s *SmartContract) UpdateAsset(ctx contractapi.TransactionContextInterface,
 		Price:             price,
 		Quantity:          quantity,
 		WholesalerId:      wholesalerId,
-		WholesalerPrice:   wholesalerPrice,
+		WholesalerName:    WholesalerName,
 		WholesalerBuyDate: wholesalerBuyDate,
 		RetailerId:        retailerId,
+		RetailerName:      retailerName,
 		RetailerBuyDate:   retailerBuyDate,
 	}
 	assetJSON, err := json.Marshal(asset)

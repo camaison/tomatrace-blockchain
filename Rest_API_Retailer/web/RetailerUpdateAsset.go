@@ -13,6 +13,7 @@ func (setup *OrgSetup) RetailerUpdateAsset(w http.ResponseWriter, r *http.Reques
 	type Request struct {
 		ID              string `json:"id"`
 		RetailerId      string `json:"retailerId"`
+		RetailerName    string `json:"retailername"`
 		RetailerBuyDate string `json:"retailerBuyDate"`
 	}
 
@@ -43,6 +44,10 @@ func (setup *OrgSetup) RetailerUpdateAsset(w http.ResponseWriter, r *http.Reques
 	if requestData.RetailerId != "" {
 
 		asset["RetailerId"] = requestData.RetailerId
+	}
+	if requestData.RetailerName != "" {
+
+		asset["RetailerName"] = requestData.RetailerName
 	}
 	if requestData.RetailerBuyDate != "" {
 

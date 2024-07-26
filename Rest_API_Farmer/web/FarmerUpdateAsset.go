@@ -13,6 +13,7 @@ func (setup *OrgSetup) FarmerUpdateAsset(w http.ResponseWriter, r *http.Request)
 	type Request struct {
 		ID           string `json:"id"`
 		FarmerId     string `json:"farmerId"`
+		FarmerName   string `json:"farmerName"`
 		FarmLocation string `json:"farmLocation"`
 		Variety      string `json:"variety"`
 		BatchNo      string `json:"batchNo"`
@@ -48,6 +49,9 @@ func (setup *OrgSetup) FarmerUpdateAsset(w http.ResponseWriter, r *http.Request)
 	if requestData.FarmerId != "" {
 
 		asset["FarmerId"] = requestData.FarmerId
+	}
+	if requestData.FarmerName != "" {
+		asset["FarmerName"] = requestData.FarmerName
 	}
 	if requestData.FarmLocation != "" {
 
